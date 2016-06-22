@@ -47,6 +47,6 @@
     "scss-lint-html-reporter": "0.3.1",
     "sinon": "1.15.4",
     "kbb-local-hooks": "*",
-    "sync-request": "3.0.1"
+    "request-sync": "1.0.0"
   }
 }
