@@ -8,6 +8,6 @@
   },
   "dependencies": {
     "kbb-local-hooks": "*",
-    "request-sync": "1.0.0"
+    "sync-request": "3.0.1"
   }
 }
