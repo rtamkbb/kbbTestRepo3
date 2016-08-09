@@ -1,1 +1,1 @@
-copy the hooks folder to [repo root]/.git
+###Copy the hooks folder to [repo root]/.git
