@@ -1,0 +1,51 @@
+# Ignore Visual Studio files
+*.obj
+*.exe
+*.pdb
+*.user
+*.aps
+*.pch
+*.vspscc
+*_i.c
+*_p.c
+*.ncb
+*.suo
+*.tlb
+*.tlh
+*.bak
+*.cache
+*.ilk
+*.log
+*.lib
+*.sbr
+*.scc
+*.orig
+*.rej
+*.map
+[Bb]in
+[Dd]ebug*/
+obj/
+[Rr]elease*/
+_ReSharper*/
+[Tt]est[Rr]esult*
+[Bb]uild[Ll]og.*
+*.[Pp]ublish.xml
+*.pubxml
+.vs/*
+
+#Ignore GhostDoc files
+KbbHelp
+*GhostDoc*
+
+# Ignore OSX files
+*.DS_Store
+*.codekit
+prepros.cfg
+
+#Ignore NPM
+node_modules/
+KBB.Trident.Web/npm-debug.log
+KBB.Trident.Web/Styles/OOLess/prepros.cfg
+KBB.Trident.Web/scss-lint-report.html
+KBB.Trident.Web/eslint-report.html
+
