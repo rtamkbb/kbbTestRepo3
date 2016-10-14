@@ -1,52 +1,10 @@
 #!/usr/bin/env node
 
-var fs = require('fs'); // need file reading capability
-var childProcess = require('child_process'); // for running cmd line
-var PrepareCommitMessage = require('../../KBB.Trident.Web/GitHooks/prepare-commit-msg.js');
 
-var mergeCommitFile = process.argv[2]; // merge commit message is stored in a file, usually ".git/MERGE_MSG"
-var source = process.argv[3]; // commit message source (message, template, merge, squash, commit)
-var statusCode = 1;
-var mergeFromBranchName = '';
-var currentBranchName = '';
+var kbbhooks = require('../../GitHooks/commit-msg-ES6.js');
 
-console.log('prepare-commit-msg hook start');
+if(process.argv[3] === 'merge') {
 
-// if merge, then get the current branch name and the merge from branch name
-if(source === 'merge') {	
-	// get the current branch name
-	var spawn = childProcess.spawnSync('git', ['rev-parse', '--abbrev-ref', 'HEAD']);
-	var errorText = spawn.stderr.toString().trim();
-	if (errorText) {
-		console.log('ERROR: Failed to get branch name');
-	}
-	else {
-		currentBranchName = spawn.stdout.toString().trim();
-	}
-	
-	// get the source branch name
-	// I could only find out how to get the source head from the environment variables.  It's stored in the GITHEAD_<sha> variable
-	// Usually it can be found in the .git/MERGE_HEAD file, but that file is not availalble at this point.
-	for(var prop in process.env) {
-		if(prop.startsWith('GITHEAD_')) {
-			mergeFromBranchName = process.env[prop];
-			break;
-		}
-	}
-	
-	// get the merge commit message
-	var mergeCommitMessage = fs.readFileSync(mergeCommitFile); // read the file for the commit message
-	if(!mergeCommitMessage) {
-		console.log('ERROR: Could not read merge commit message file');
-	}
-	
-	if(mergeFromBranchName !== '' && currentBranchName !== '' && mergeCommitMessage !== '') {
-		statusCode = PrepareCommitMessage.validate(currentBranchName, mergeFromBranchName, mergeCommitMessage);
-	}	
-} else {
-	statusCode = 0;
+    kbbhooks.validateCommit();
+
 }
-
-console.log('prepare-commit-msg hook end: ' + statusCode);
-
-process.exit(statusCode);
