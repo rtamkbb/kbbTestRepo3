@@ -28,7 +28,7 @@ var validateCommitMsg = function (msg) {
 
 var validateBranch = function () {
 
-    const protectedBranches =  ['master', 'staging', 'develop'];
+    const protectedBranches =  ['master', 'staging', 'develops'];
     const  childProcess = require('child_process');
     const  spawn = childProcess.spawnSync('git', ['rev-parse', '--abbrev-ref', 'HEAD']);
 
@@ -43,7 +43,12 @@ var validateBranch = function () {
         currentBranchName = spawn.stdout.toString().trim();
 
         if (protectedBranches.join('').indexOf(currentBranchName) >= 0) {
-           console.error(`ERROR: You cannot commit directly to the ${branchName} branch`);
+
+           if(process.argv[3] === 'merge'){
+                console.error(`ERROR: You are not allowed to merge to ${currentBranchName}.   Merge from Github using a pull request`);
+            }else{
+                console.error(`ERROR: You cannot commit directly to the ${currentBranchName} branch`);
+            }
            return 1;
        }
        return 0;
@@ -51,42 +56,6 @@ var validateBranch = function () {
 
 }
 
-var validateMergeToBranch = function () {
-
-    const protectedBranches =  ['master', 'staging', 'develop'];
-    const  childProcess = require('child_process');
-    const  spawn = childProcess.spawnSync('git', ['rev-parse', '--abbrev-ref', 'HEAD']);
-
-    let error = spawn.stderr.toString().trim();
-    let currentBranchName = '';
-    let mergeFromBranchName = '';
-
-    // get the source branch name
-    // I could only find out how to get the source head from the environment variables.  It's stored in the GITHEAD_<sha> variable
-    // Usually it can be found in the .git/MERGE_HEAD file, but that file is not availalble at this point.
-    for(var prop in process.env) {
-        if(prop.startsWith('GITHEAD_')) {
-            mergeFromBranchName = process.env[prop];
-            break;
-        }
-    }
-
-    if(error){
-        console.error('ERROR: Failed to get branch name');
-        return 1;
-    } else{
-
-        currentBranchName = branchName.trim();
-
-        if (protectedBranches.join('').indexOf(branchName) >= 0) {
-           console.error(`ERROR: You cannot commit directly to the ${branchName} branch`);
-           return 1;
-
-       } elseP
-       return 0;
-    }
-
-}
 
 //should handel merge conflict ??
 //
@@ -94,15 +63,7 @@ module.exports = {
     validateCommit: function () {
         let statusCode = 1;
 
-        if (validateCommitMsg() === 0 && validateBranch() === 0) {
-            statusCode = 0;
-        }
-        process.exit(statusCode);
-    },
-    validatePrepareCommit: function(){
-        let statusCode = 1;
-
-        if (validateCommitMsg() === 0 && validateMergeToBranch() === 0) {
+        if ( validateBranch() === 0 &&validateCommitMsg() === 0 ) {
             statusCode = 0;
         }
         process.exit(statusCode);
