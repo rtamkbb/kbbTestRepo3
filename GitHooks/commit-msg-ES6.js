@@ -28,6 +28,7 @@ var validateCommitMsg = function (msg) {
 
 var validateBranch = function () {
 
+
     const protectedBranches =  ['master', 'staging', 'develop'];
     const  childProcess = require('child_process');
     const  spawn = childProcess.spawnSync('git', ['rev-parse', '--abbrev-ref', 'HEAD']);
