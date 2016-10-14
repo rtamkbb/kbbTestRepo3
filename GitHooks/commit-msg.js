@@ -1,5 +1,5 @@
 #!/usr/bin/env node
 
-var CommitMessage = require('../../GitHooks/commit-msg-ES6.js');
+var kbbhooks = require('../../GitHooks/giithooks.js');
 
-var statusCode = CommitMessage.validate();
+kbbhooks.validate();
