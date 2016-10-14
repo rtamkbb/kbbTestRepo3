@@ -1,5 +1,5 @@
 #!/usr/bin/env node
 
-var kbbhooks = require('../../GitHooks/giithooks.js');
+var kbbhooks = require('../../GitHooks/githooks.js');
 
-kbbhooks.validate();
+kbbhooks.validateCommit();
