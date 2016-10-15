@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 
-var kbbhooks = require('../../GitHooks/commit-msg-ES6.js');
+var kbbhooks = require('../../GitHooks/githooks.js');
 
 if(process.argv[3] === 'merge') {
 
